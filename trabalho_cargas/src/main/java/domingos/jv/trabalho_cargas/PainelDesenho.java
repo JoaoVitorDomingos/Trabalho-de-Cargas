@@ -125,8 +125,20 @@ public class PainelDesenho extends JPanel {
     }
     
     public void resetarDesenho() {
-        for(Particula p : particulas)
+        for(Particula p : particulas){
             p.setCarga(0);
+            p.resetDistancia();
+        }
         repaint();
+    }
+    
+    public void setDistancia(double lado) {
+        for(Particula p : particulas) {
+            p.setDistancia(lado);
+        }
+    }
+    
+    public List<Particula> getParticulas() {
+        return particulas;
     }
 }

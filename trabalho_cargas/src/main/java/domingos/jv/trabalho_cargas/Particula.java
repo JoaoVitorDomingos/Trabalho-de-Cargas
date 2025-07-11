@@ -13,7 +13,6 @@ public class Particula {
         this.forma = new Ellipse2D.Float(x, y, 15, 15);
         this.carga = 0;
         definirPos(x, y);
-        calcularDistancia();
     }
 
     public int getCarga() {
@@ -40,6 +39,18 @@ public class Particula {
         this.carga = carga;
     }
     
+    public void setDistancia(double lado) {
+        if(posX == Position.CENTER || posY == Position.MIDDLE) {
+            distancia = lado / 2.0;
+        } else {
+            distancia = lado / Math.sqrt(2);
+        }
+    }
+    
+    public void resetDistancia() {
+        distancia = 0;
+    }
+    
     private void definirPos(int x, int y) {
         if(x == 40)
             posX = Position.LEFT;
@@ -56,7 +67,5 @@ public class Particula {
             posY = Position.BOTTOM;
     }
     
-    private void calcularDistancia() {
-        
-    }
+    
 }

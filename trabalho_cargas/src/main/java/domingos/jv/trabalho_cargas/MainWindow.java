@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -61,8 +62,14 @@ public class MainWindow extends JFrame {
     
     // Variáveis de Entrada
     private double lado;
-    private double carga;
+    private int carga;
     private String unidadeMed;
+    
+    // Constantes
+    private final double CONSTANTE = -9e9;
+    private final double CARGA_ELEMENTAR = 1.6e-19;
+    
+    private List<Particula> particulas;
 
     public MainWindow() {
         super("Trabalho de Cargas");
@@ -105,7 +112,7 @@ public class MainWindow extends JFrame {
         //labelDescricao = new JLabel("Clique em cada partícula para adicionar a carga.");
         //labelDescricao.setFont(fonteLabels);
         labelDescricao = new JTextArea("Clique em cada partícula para\nadicionar a carga.");
-        //labelDescricao.setBackground(null);
+        //labelDescricao.setBackground(Color.LIGHT_GRAY);
         labelDescricao.setEditable(false);
         labelDescricao.setFont(fonteLabels);
         labelDescricao.setMinimumSize(new Dimension(300, 60));
@@ -211,7 +218,17 @@ public class MainWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Calcular
-                checarEntradas();
+                if(inputCarga.getText().isEmpty() || inputLado.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, 
+                            "Preencha o Lado e a Carga da partícula alvo!", 
+                            "Faltando Valores", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    if(checarEntradas()) {
+                        painelDesenho.setDistancia(lado);
+                        particulas = painelDesenho.getParticulas();
+                        calcular();
+                    }
+                }
             }
         });
         
@@ -236,40 +253,54 @@ public class MainWindow extends JFrame {
     private boolean checarEntradas() {
         try {
             lado = Double.parseDouble(inputLado.getText());
-            carga = Double.parseDouble(inputCarga.getText());
+            carga = Integer.parseInt(inputCarga.getText());
             
-            if(lado <= 0)
+            if(lado <= 0) {
                 JOptionPane.showMessageDialog(MainWindow.this, 
                     "Digite um número positivo!", 
                     "Lado inválido", JOptionPane.ERROR_MESSAGE);
-            else if((radioCentimetro.isSelected() && lado > 20.0) ||
-                        (radioMetro.isSelected() && lado > 10.0))
+                return false;
+            } else if((radioCentimetro.isSelected() && lado > 20.0) ||
+                        (radioMetro.isSelected() && lado > 10.0)) {
                 JOptionPane.showMessageDialog(MainWindow.this, 
-                    "Lado máximo de 20 centímetros e 10 metros!", 
+                    "Lado máximo de 20 centímetros e, de 10 metros!", 
                     "Lado muito grande.", JOptionPane.INFORMATION_MESSAGE);
+                return false;
+            }
             else {
-                JOptionPane.showMessageDialog(MainWindow.this, 
-                    "Lado: " + lado, 
-                    "Lado", JOptionPane.INFORMATION_MESSAGE);
-                
-                if(carga < -10 || carga > 10)
+                if(carga < -10 || carga > 10) {
                     JOptionPane.showMessageDialog(MainWindow.this, 
                     "A carga da partícula deve ter valor máxima de 10 e mínima de -10!", 
                     "Carga grande ou pequena", JOptionPane.INFORMATION_MESSAGE);
+                    return false;
+                }
                 else {
-                    JOptionPane.showMessageDialog(MainWindow.this, 
-                    "Carga: " + carga, 
-                    "Carga", JOptionPane.INFORMATION_MESSAGE);
+                    return true;
                 }
             }
             
         } catch(NumberFormatException ex) {
             JOptionPane.showMessageDialog(MainWindow.this, 
-                    "Digite um número!", 
-                    "Lado inválido", JOptionPane.ERROR_MESSAGE);
+                    "Digite um número positivo para o lado!\n"
+                            + "Digite um número inteiro para a carga!", 
+                    "Entrada inválida", JOptionPane.ERROR_MESSAGE);
         }
         
         return false;
     }
     
+    private void calcular() {
+        JOptionPane.showMessageDialog(rootPane, "Constante: " + CONSTANTE);
+        
+        double res = 0.0;
+        
+        for(Particula p : particulas) {
+            res += carga * p.getCarga() / p.getDistancia();
+        }
+        
+        res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
+        
+        labelResultado.setText("É necessário um trabalho de " + res + 
+                "J para deslocar a particula alvo para o centro do quadrado");
+    }
 }
