@@ -32,7 +32,7 @@ public class MainWindow extends JFrame {
     private JPanel painelLado;
     private JPanel painelCarga;
     private JPanel painelRadio;
-    // Painel Personalizado
+    private PainelDesenho painelDesenho;
     
     private JLabel titulo;
     
@@ -115,11 +115,14 @@ public class MainWindow extends JFrame {
         // Painel Desenho
         painelCentroEsq.add(labelDescricao);
         painelCentroEsq.add(Box.createVerticalStrut(10));
-        // Adição Painel Desenho
+        painelDesenho = new PainelDesenho(this);
+        painelCentroEsq.add(painelDesenho);
+        /*
         JPanel p = new JPanel();
         p.setBackground(Color.PINK);
         p.add(new JLabel("Painel Desenho"));
         painelCentroEsq.add(p);
+        */
         
         painelCentroC = new JPanel();
         painelCentroC.setLayout(new BoxLayout(painelCentroC, BoxLayout.Y_AXIS));

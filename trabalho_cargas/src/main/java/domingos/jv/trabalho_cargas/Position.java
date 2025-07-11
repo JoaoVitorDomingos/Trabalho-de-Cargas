@@ -1,7 +1,7 @@
 package domingos.jv.trabalho_cargas;
 
 public enum Position {
-    LEFT(1), CENTER(2), RIGHT(3), TOP(-1), MIDDLE(-2), BOTTOM(-3);
+    LEFT(40), CENTER(150), RIGHT(260), TOP(30), MIDDLE(90), BOTTOM(150);
     
     private int valor;
 
