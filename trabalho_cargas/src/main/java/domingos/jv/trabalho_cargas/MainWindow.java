@@ -30,6 +30,7 @@ public class MainWindow extends JFrame {
     private JPanel painelCentroSul;
     private JPanel painelSul;
     private JPanel painelLado;
+    private JPanel painelCarga;
     private JPanel painelRadio;
     // Painel Personalizado
     
@@ -38,10 +39,12 @@ public class MainWindow extends JFrame {
     //private JLabel labelDescricao;
     private JTextArea labelDescricao;
     private JLabel labelLado;
+    private JLabel labelCarga;
     private JLabel labelUnidade;
     private JLabel labelResultado;
     
     private JTextField inputLado;
+    private JTextField inputCarga;
     
     private ButtonGroup radioGroup;
     private JRadioButton radioCentimetro;
@@ -58,6 +61,7 @@ public class MainWindow extends JFrame {
     
     // Variáveis de Entrada
     private double lado;
+    private double carga;
     private String unidadeMed;
 
     public MainWindow() {
@@ -120,7 +124,7 @@ public class MainWindow extends JFrame {
         painelCentroC = new JPanel();
         painelCentroC.setLayout(new BoxLayout(painelCentroC, BoxLayout.Y_AXIS));
         //painelCentroC.setBackground(Color.BLUE);
-        painelCentroC.setBorder(new EmptyBorder(80, 0, 0, 0));
+        painelCentroC.setBorder(new EmptyBorder(60, 0, 0, 0));
         painelCentro.add(painelCentroC, BorderLayout.CENTER);
         
         painelLado = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 20));
@@ -138,6 +142,22 @@ public class MainWindow extends JFrame {
         painelLado.add(labelLado);
         painelLado.add(inputLado);
         painelCentroC.add(painelLado);
+        
+        painelCarga = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 20));
+        painelCarga.setMinimumSize(new Dimension(360, 50));
+        painelCarga.setPreferredSize(new Dimension(450, 70));
+        painelCarga.setMaximumSize(new Dimension(420, 80));
+        
+        labelCarga = new JLabel("Carga da partícula alvo: ");
+        labelCarga.setFont(fonteLabels);
+        labelCarga.setLabelFor(inputLado);
+        inputCarga = new JTextField(5);
+        inputCarga.setFont(fonteRadio);
+        inputCarga.setText("6");
+        
+        painelCarga.add(labelCarga);
+        painelCarga.add(inputCarga);
+        painelCentroC.add(painelCarga);
         
         painelRadio = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 20));
         painelRadio.setMinimumSize(new Dimension(360, 50));
@@ -197,6 +217,7 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Resetar
                 inputLado.setText("4");
+                inputCarga.setText("6");
                 radioMetro.setSelected(false);
                 radioCentimetro.setSelected(true);
                 labelResultado.setText("Resultado:");
@@ -211,6 +232,7 @@ public class MainWindow extends JFrame {
     private boolean checarEntradas() {
         try {
             lado = Double.parseDouble(inputLado.getText());
+            carga = Double.parseDouble(inputCarga.getText());
             
             if(lado <= 0)
                 JOptionPane.showMessageDialog(MainWindow.this, 
@@ -225,6 +247,16 @@ public class MainWindow extends JFrame {
                 JOptionPane.showMessageDialog(MainWindow.this, 
                     "Lado: " + lado, 
                     "Lado", JOptionPane.INFORMATION_MESSAGE);
+                
+                if(carga < -10 || carga > 10)
+                    JOptionPane.showMessageDialog(MainWindow.this, 
+                    "A carga da partícula deve ter valor máxima de 10 e mínima de -10!", 
+                    "Carga grande ou pequena", JOptionPane.INFORMATION_MESSAGE);
+                else {
+                    JOptionPane.showMessageDialog(MainWindow.this, 
+                    "Carga: " + carga, 
+                    "Carga", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
             
         } catch(NumberFormatException ex) {
