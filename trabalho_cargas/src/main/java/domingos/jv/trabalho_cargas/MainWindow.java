@@ -6,12 +6,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -19,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class MainWindow extends JFrame {
+    // Componentes Gráficos
     private JPanel painelNorte;
     private JPanel painelCentro;
     private JPanel painelCentroEsq;
@@ -51,6 +55,10 @@ public class MainWindow extends JFrame {
     private Font fonteRadio;
     private Font fonteBtn;
     private Font fonteRes;
+    
+    // Variáveis de Entrada
+    private double lado;
+    private String unidadeMed;
 
     public MainWindow() {
         super("Trabalho de Cargas");
@@ -125,6 +133,7 @@ public class MainWindow extends JFrame {
         labelLado.setLabelFor(inputLado);
         inputLado = new JTextField(5);
         inputLado.setFont(fonteRadio);
+        inputLado.setText("4");
         
         painelLado.add(labelLado);
         painelLado.add(inputLado);
@@ -175,10 +184,56 @@ public class MainWindow extends JFrame {
         labelResultado.setFont(fonteRes);
         painelSul.add(labelResultado);
         
+        btnCalcular.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Calcular
+                checarEntradas();
+            }
+        });
+        
+        btnResetar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Resetar
+                inputLado.setText("4");
+                radioMetro.setSelected(false);
+                radioCentimetro.setSelected(true);
+                labelResultado.setText("Resultado:");
+            }
+        });
+        
         
         setLocationRelativeTo(null);
         setVisible(true);
     }
     
+    private boolean checarEntradas() {
+        try {
+            lado = Double.parseDouble(inputLado.getText());
+            
+            if(lado <= 0)
+                JOptionPane.showMessageDialog(MainWindow.this, 
+                    "Digite um número positivo!", 
+                    "Lado inválido", JOptionPane.ERROR_MESSAGE);
+            else if((radioCentimetro.isSelected() && lado > 20.0) ||
+                        (radioMetro.isSelected() && lado > 10.0))
+                JOptionPane.showMessageDialog(MainWindow.this, 
+                    "Lado máximo de 20 centímetros e 10 metros!", 
+                    "Lado muito grande.", JOptionPane.INFORMATION_MESSAGE);
+            else {
+                JOptionPane.showMessageDialog(MainWindow.this, 
+                    "Lado: " + lado, 
+                    "Lado", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(MainWindow.this, 
+                    "Digite um número!", 
+                    "Lado inválido", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return false;
+    }
     
 }
