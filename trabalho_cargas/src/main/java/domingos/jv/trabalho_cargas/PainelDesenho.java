@@ -124,4 +124,9 @@ public class PainelDesenho extends JPanel {
         return pos;
     }
     
+    public void resetarDesenho() {
+        for(Particula p : particulas)
+            p.setCarga(0);
+        repaint();
+    }
 }

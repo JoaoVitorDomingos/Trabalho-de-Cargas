@@ -224,6 +224,7 @@ public class MainWindow extends JFrame {
                 radioMetro.setSelected(false);
                 radioCentimetro.setSelected(true);
                 labelResultado.setText("Resultado:");
+                painelDesenho.resetarDesenho();
             }
         });
         
