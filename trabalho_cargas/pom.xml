@@ -8,6 +8,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>24</maven.compiler.release>
-        <exec.mainClass>domingos.jv.trabalho_cargas.Trabalho_cargas</exec.mainClass>
+        <exec.mainClass>domingos.jv.trabalho_cargas.TrabalhoCargas</exec.mainClass>
     </properties>
 </project>
