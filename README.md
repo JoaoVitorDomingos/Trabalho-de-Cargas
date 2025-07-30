@@ -24,4 +24,4 @@ Nesta situação temos no máximo 8 partículas em forma de um quadrado e temos 
 ## Baixe o executável (jar) aqui
 OBS: É necessário ter o JDK intalado, <a href="https://download.oracle.com/java/24/latest/jdk-24_windows-x64_bin.exe">clique aqui para instalar</a>.
 
-Executável: 
+Executável: <a href="https://github.com/JoaoVitorDomingos/Trabalho-de-Cargas/releases/tag/1.0.0">LINK</a>
