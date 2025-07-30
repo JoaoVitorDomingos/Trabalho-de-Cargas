@@ -69,9 +69,11 @@ public class MainWindow extends JFrame {
     private final double CONSTANTE = -9e9;
     private final double CARGA_ELEMENTAR = 1.6e-19;
     
+    // Particulas
     private List<Particula> particulas;
 
     public MainWindow() {
+        // Criação do Layout
         super("Trabalho de Cargas");
         
         setLayout(new BorderLayout());
@@ -203,7 +205,7 @@ public class MainWindow extends JFrame {
         painelCentroSul.add(btnCalcular);
         painelCentroSul.add(btnResetar);
         
-        // Região Sul
+        // Região Sul - Resultado
         painelSul = new JPanel();
         painelSul.setLayout(new FlowLayout(FlowLayout.CENTER));
         painelSul.setBorder(new EmptyBorder(60, 20, 30, 20));
@@ -217,7 +219,7 @@ public class MainWindow extends JFrame {
         btnCalcular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Calcular
+                // Realiza verificações das entradas para realizar o cálculo
                 if(inputCarga.getText().isEmpty() || inputLado.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(rootPane, 
                             "Preencha o Lado e a Carga da partícula alvo!", 
@@ -237,7 +239,7 @@ public class MainWindow extends JFrame {
         btnResetar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Resetar
+                // Reseta os campos de entradas
                 inputLado.setText("4");
                 inputCarga.setText("6");
                 radioMetro.setSelected(false);
@@ -254,29 +256,36 @@ public class MainWindow extends JFrame {
     
     private boolean checarEntradas() {
         try {
+            // Checa para ver se foi digitado números
             lado = Double.parseDouble(inputLado.getText());
             carga = Integer.parseInt(inputCarga.getText());
             
             if(lado <= 0) {
+                // Checa de o lado é um número positivo
                 JOptionPane.showMessageDialog(MainWindow.this, 
                     "Digite um número positivo!", 
                     "Lado inválido", JOptionPane.ERROR_MESSAGE);
                 return false;
+                
             } else if((radioCentimetro.isSelected() && lado > 20.0) ||
                         (radioMetro.isSelected() && lado > 10.0)) {
+                //Checa se o lado respeita o limite
                 JOptionPane.showMessageDialog(MainWindow.this, 
                     "Lado máximo de 20 centímetros e, de 10 metros!", 
                     "Lado muito grande.", JOptionPane.INFORMATION_MESSAGE);
                 return false;
-            }
-            else {
+                
+            } else {
                 if(carga < -10 || carga > 10) {
+                    // Checa se a carga respeita o limite
                     JOptionPane.showMessageDialog(MainWindow.this, 
                     "A carga da partícula deve ter valor máxima de 10 e mínima de -10!", 
                     "Carga grande ou pequena", JOptionPane.INFORMATION_MESSAGE);
                     return false;
+                    
                 }
                 else {
+                    // Esta tudo certo
                     return true;
                 }
             }
@@ -294,6 +303,7 @@ public class MainWindow extends JFrame {
     private void calcular() {
         double res = 0.0;
         
+        // Realiza a soma das cargas
         for(Particula p : particulas) {
             System.out.println(carga + " * " + p.getCarga() + " / " + p.getDistancia());
             res += carga * p.getCarga() / p.getDistancia();
@@ -301,10 +311,12 @@ public class MainWindow extends JFrame {
         
         System.out.println("Res: " + res);
         
+        // Aplica o valor da constante e da carga elementar
         res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
         
         System.out.println("Res final: " + res);
         
+        // Mostra a resposta
         String msgRes = String.format("É necessário um trabalho de %.2eJ "
                 + "para deslocar a particula alvo para o centro do quadrado", res);
         
