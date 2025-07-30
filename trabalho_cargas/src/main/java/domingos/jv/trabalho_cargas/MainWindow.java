@@ -62,11 +62,11 @@ public class MainWindow extends JFrame {
     
     // Variáveis de Entrada
     private double lado;
-    private int carga;
+    private int cargaAlvo;
     private String unidadeMed;
     
     // Constantes
-    private final double CONSTANTE = -9e9;
+    private final double CONSTANTE = 9e9;
     private final double CARGA_ELEMENTAR = 1.6e-19;
     
     // Particulas
@@ -99,7 +99,6 @@ public class MainWindow extends JFrame {
         painelCentro = new JPanel();
         painelCentro.setLayout(new BorderLayout(20, 20));
         painelCentro.setBorder(new EmptyBorder(0, 40, 0, 0));
-        //painelCentro.setBackground(Color.red);
         add(painelCentro, BorderLayout.CENTER);
         
         painelCentroEsq = new JPanel();
@@ -107,35 +106,23 @@ public class MainWindow extends JFrame {
         painelCentroEsq.setMinimumSize(new Dimension(300, 300));
         painelCentroEsq.setPreferredSize(new Dimension(370, 300));
         painelCentroEsq.setMaximumSize(new Dimension(400, 300));
-        //painelCentroEsq.setBorder(new EmptyBorder(0, 40, 20, 20));
-        //painelCentroEsq.setBackground(Color.YELLOW);
         painelCentro.add(painelCentroEsq, BorderLayout.WEST);
         
-        //labelDescricao = new JLabel("Clique em cada partícula para adicionar a carga.");
-        //labelDescricao.setFont(fonteLabels);
         labelDescricao = new JTextArea("Clique em cada partícula para\nadicionar a carga.");
-        //labelDescricao.setBackground(Color.LIGHT_GRAY);
         labelDescricao.setEditable(false);
         labelDescricao.setFont(fonteLabels);
         labelDescricao.setMinimumSize(new Dimension(300, 60));
         labelDescricao.setPreferredSize(new Dimension(370, 60));
         labelDescricao.setMaximumSize(new Dimension(400, 60));
-        // Quebra de linha
+        
         // Painel Desenho
         painelCentroEsq.add(labelDescricao);
         painelCentroEsq.add(Box.createVerticalStrut(10));
         painelDesenho = new PainelDesenho(this);
         painelCentroEsq.add(painelDesenho);
-        /*
-        JPanel p = new JPanel();
-        p.setBackground(Color.PINK);
-        p.add(new JLabel("Painel Desenho"));
-        painelCentroEsq.add(p);
-        */
         
         painelCentroC = new JPanel();
         painelCentroC.setLayout(new BoxLayout(painelCentroC, BoxLayout.Y_AXIS));
-        //painelCentroC.setBackground(Color.BLUE);
         painelCentroC.setBorder(new EmptyBorder(60, 0, 0, 0));
         painelCentro.add(painelCentroC, BorderLayout.CENTER);
         
@@ -194,8 +181,6 @@ public class MainWindow extends JFrame {
         painelCentroC.add(painelRadio);
         
         painelCentroSul = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        //painelCentroDir.setBorder(new EmptyBorder(0, 20, 20, 40));
-        //painelCentroSul.setBackground(Color.MAGENTA);
         painelCentro.add(painelCentroSul, BorderLayout.SOUTH);
         
         btnCalcular = new JButton("Calcular");
@@ -209,7 +194,6 @@ public class MainWindow extends JFrame {
         painelSul = new JPanel();
         painelSul.setLayout(new FlowLayout(FlowLayout.CENTER));
         painelSul.setBorder(new EmptyBorder(60, 20, 30, 20));
-        //painelSul.setBackground(Color.CYAN);
         add(painelSul, BorderLayout.SOUTH);
         
         labelResultado = new JLabel("Resultado: ");
@@ -258,7 +242,7 @@ public class MainWindow extends JFrame {
         try {
             // Checa para ver se foi digitado números
             lado = Double.parseDouble(inputLado.getText());
-            carga = Integer.parseInt(inputCarga.getText());
+            cargaAlvo = Integer.parseInt(inputCarga.getText());
             
             if(lado <= 0) {
                 // Checa de o lado é um número positivo
@@ -276,7 +260,7 @@ public class MainWindow extends JFrame {
                 return false;
                 
             } else {
-                if(carga < -10 || carga > 10) {
+                if(cargaAlvo < -10 || cargaAlvo > 10) {
                     // Checa se a carga respeita o limite
                     JOptionPane.showMessageDialog(MainWindow.this, 
                     "A carga da partícula deve ter valor máxima de 10 e mínima de -10!", 
@@ -306,8 +290,7 @@ public class MainWindow extends JFrame {
         
         // Realiza a soma das cargas
         for(Particula p : particulas) {
-            System.out.println(carga + " * " + p.getCarga() + " / " + p.getDistancia());
-            res += carga * p.getCarga() / p.getDistancia();
+            res += cargaAlvo * p.getCarga() / p.getDistancia();
         }
         
         System.out.println("Res: " + res);
@@ -316,13 +299,9 @@ public class MainWindow extends JFrame {
             // Aplica o valor da constante e da carga elementar
             res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
 
-            System.out.println("Res final: " + res);
-
             // Mostra a resposta
             msgRes = String.format("É necessário um trabalho de %.2eJ "
                     + "para deslocar a particula alvo para o centro do quadrado", res);
-
-            System.out.println("Msg: " + msgRes);
             
         } else {
             msgRes =  "É necessário um trabalho de 0J "

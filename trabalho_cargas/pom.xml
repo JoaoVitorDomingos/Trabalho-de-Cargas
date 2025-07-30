@@ -10,4 +10,24 @@
         <maven.compiler.release>24</maven.compiler.release>
         <exec.mainClass>domingos.jv.trabalho_cargas.TrabalhoCargas</exec.mainClass>
     </properties>
+    
+    <build>
+        <finalName>TrabalhoCargas</finalName>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>domingos.jv.trabalho_cargas.TrabalhoCargas</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
