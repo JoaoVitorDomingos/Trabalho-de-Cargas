@@ -82,7 +82,7 @@ public class MainWindow extends JFrame {
         fonteLabels = new Font("Open Sans", Font.PLAIN, 20);
         fonteRadio = new Font("Open Sans", Font.PLAIN, 16);
         fonteBtn = new Font("Open Sans", Font.PLAIN, 18);
-        fonteRes = new Font("Open Sans", Font.BOLD, 20);
+        fonteRes = new Font("Open Sans", Font.BOLD, 18);
         
         // Região norte - Titulo
         painelNorte = new JPanel();
@@ -224,6 +224,8 @@ public class MainWindow extends JFrame {
                             "Faltando Valores", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     if(checarEntradas()) {
+                        if(radioCentimetro.isSelected())
+                            lado /= 100;
                         painelDesenho.setDistancia(lado);
                         particulas = painelDesenho.getParticulas();
                         calcular();
@@ -290,17 +292,24 @@ public class MainWindow extends JFrame {
     }
     
     private void calcular() {
-        JOptionPane.showMessageDialog(rootPane, "Constante: " + CONSTANTE);
-        
         double res = 0.0;
         
         for(Particula p : particulas) {
+            System.out.println(carga + " * " + p.getCarga() + " / " + p.getDistancia());
             res += carga * p.getCarga() / p.getDistancia();
         }
         
+        System.out.println("Res: " + res);
+        
         res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
         
-        labelResultado.setText("É necessário um trabalho de " + res + 
-                "J para deslocar a particula alvo para o centro do quadrado");
+        System.out.println("Res final: " + res);
+        
+        String msgRes = String.format("É necessário um trabalho de %.2eJ "
+                + "para deslocar a particula alvo para o centro do quadrado", res);
+        
+        System.out.println("Msg: " + msgRes);
+        
+        labelResultado.setText(msgRes);
     }
 }
