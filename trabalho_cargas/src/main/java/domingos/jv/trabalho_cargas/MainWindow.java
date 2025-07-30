@@ -301,6 +301,7 @@ public class MainWindow extends JFrame {
     }
     
     private void calcular() {
+        String msgRes = "";
         double res = 0.0;
         
         // Realiza a soma das cargas
@@ -311,16 +312,22 @@ public class MainWindow extends JFrame {
         
         System.out.println("Res: " + res);
         
-        // Aplica o valor da constante e da carga elementar
-        res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
-        
-        System.out.println("Res final: " + res);
-        
-        // Mostra a resposta
-        String msgRes = String.format("É necessário um trabalho de %.2eJ "
-                + "para deslocar a particula alvo para o centro do quadrado", res);
-        
-        System.out.println("Msg: " + msgRes);
+        if(res != 0) {
+            // Aplica o valor da constante e da carga elementar
+            res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
+
+            System.out.println("Res final: " + res);
+
+            // Mostra a resposta
+            msgRes = String.format("É necessário um trabalho de %.2eJ "
+                    + "para deslocar a particula alvo para o centro do quadrado", res);
+
+            System.out.println("Msg: " + msgRes);
+            
+        } else {
+            msgRes =  "É necessário um trabalho de 0J "
+                    + "para deslocar a particula alvo para o centro do quadrado";
+        }
         
         labelResultado.setText(msgRes);
     }
