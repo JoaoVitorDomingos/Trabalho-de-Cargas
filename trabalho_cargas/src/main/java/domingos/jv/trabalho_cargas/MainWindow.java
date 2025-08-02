@@ -293,8 +293,6 @@ public class MainWindow extends JFrame {
             res += cargaAlvo * p.getCarga() / p.getDistancia();
         }
         
-        System.out.println("Res: " + res);
-        
         if(res != 0) {
             // Aplica o valor da constante e da carga elementar
             res *= CONSTANTE * Math.pow(CARGA_ELEMENTAR, 2);
