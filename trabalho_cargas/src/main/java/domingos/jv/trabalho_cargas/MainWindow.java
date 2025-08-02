@@ -1,7 +1,6 @@
 package domingos.jv.trabalho_cargas;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -111,6 +110,7 @@ public class MainWindow extends JFrame {
         labelDescricao = new JTextArea("Clique em cada partícula para\nadicionar a carga.");
         labelDescricao.setEditable(false);
         labelDescricao.setFont(fonteLabels);
+        labelDescricao.setBackground(null);
         labelDescricao.setMinimumSize(new Dimension(300, 60));
         labelDescricao.setPreferredSize(new Dimension(370, 60));
         labelDescricao.setMaximumSize(new Dimension(400, 60));
